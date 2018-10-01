@@ -17,5 +17,8 @@ cd kraken2-microbial-fatfree/
 wget https://refdb.s3.climb.ac.uk/kraken2-microbial/hash.k2d
 wget https://refdb.s3.climb.ac.uk/kraken2-microbial/opts.k2d
 wget https://refdb.s3.climb.ac.uk/kraken2-microbial/taxo.k2d
+wget https://refdb.s3.climb.ac.uk/kraken2-microbial/database.kraken
+wget https://refdb.s3.climb.ac.uk/kraken2-microbial/database2500mers.kraken
+wget https://refdb.s3.climb.ac.uk/kraken2-microbial/database2500mers.kmer_distrib
 cd ..
 wget http://nanopore.s3.climb.ac.uk/Kefir_RBK.fastq
