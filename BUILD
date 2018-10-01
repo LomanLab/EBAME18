@@ -23,3 +23,4 @@ wget https://refdb.s3.climb.ac.uk/kraken2-microbial/database2500mers.kmer_distri
 echo 'echo 'export KRAKEN2_DEFAULT_DB=/mnt/ebame18/kraken2-microbial-fatfree' >> .profile
 cd ..
 wget http://nanopore.s3.climb.ac.uk/Kefir_RBK.fastq
+conda install -y anvio racon nanoplot
