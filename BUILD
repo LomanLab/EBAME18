@@ -20,5 +20,6 @@ wget https://refdb.s3.climb.ac.uk/kraken2-microbial/taxo.k2d
 wget https://refdb.s3.climb.ac.uk/kraken2-microbial/database.kraken
 wget https://refdb.s3.climb.ac.uk/kraken2-microbial/database2500mers.kraken
 wget https://refdb.s3.climb.ac.uk/kraken2-microbial/database2500mers.kmer_distrib
+echo 'echo 'export KRAKEN2_DEFAULT_DB=/mnt/ebame18/kraken2-microbial-fatfree' >> .profile
 cd ..
 wget http://nanopore.s3.climb.ac.uk/Kefir_RBK.fastq
