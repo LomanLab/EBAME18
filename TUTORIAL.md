@@ -21,7 +21,9 @@
 Orgnanise yourself into groups.
 
 ### MinION QC [10m]
-Before we do anything, we'll want to get an idea of how good our sequence data is.
+As you saw in our morning demonstration, we handled the problem of basecalling the nanopore *squiggles* for you, using `guppy`: Oxford Nanopore's GPU-accelerated basecaller.
+We provide the sequenced reads as `FASTQ`.
+Before we do anything, we'll want to get an idea of how good our sequence data is (especially since it was prepared by two bioinformaticians).
 For nanopore data, there's a handy package for generating statistics and plots, aptly named `NanoPlot`.
 
 ```
@@ -37,8 +39,9 @@ This is possible as each read header is encoded with some metadata concerning th
   - What is the distribution of read quality?
   - What is the average error rate? You can convert `phred` scores to a probability with `10^(-Q/10)`
 
-### Taxonomic identification [30m]
+### Taxonomic identification of reads [30m]
 As a means to broadly and quickly inspect the contents of the sample, we can assign taxons to the sequenced reads using `kraken2`. Given a library of sequenced genomes with known taxonomy (such as all of `RefSeq`), `kraken2` breaks up the sequences into *k-mers* (DNA substrings of length `k`), and keeps an index of all taxons associated with that k-mer.
+By default `kraken2` will index all observed 35-mers.
 
 We've already built a database beforehand, and you downloaded it just before our mid-morning break. Our database contains all of the `archaea`, `bacteria`, `fungi`, `protozoa`, `viral` sequences from the NCBI. As well as `UniVec_Core` - a set of sequences that are useful for screening for contaminants such as common sequencing library adaptors and cloning vectors.
 
@@ -48,7 +51,7 @@ The latter option will drastically reduce the size of your database, representin
 This will come at the expense of some accuracy, though the default 8 GB "`minikraken`" database can provide a good first-pass (it doesn't index any k-mers from eukaryotes, though).
 
 ```
-kraken2 -db kraken2-microbial-fatfree --threads 12 ebame18.fastq --report ebame18.report
+kraken2 --db kraken2-microbial-fatfree --threads 12 ebame18.fastq --report ebame18.report
 ```
 
 #### Questions
@@ -100,9 +103,24 @@ You probably want to see your graph.
 Luckily for you, Ryan Wick has written a nifty tool called `Bandage` that will read a `GFA` and draw you a pretty picture.
 
 #### Questions
-  - Load up `Bandage` and import your `GFA`, what do you see?
+  - What does the graph look like?
   - What structures do we have, what has been assembled?
-  - How good is our consensus?
+  - How good do you think our consensus is?
+
+### Taxonomic identification of contigs [15m]
+
+Earlier, we assigned taxons to our reads.
+We can assign taxons to our contigs in the same way.
+
+```
+kraken --db kraken2-microbial-fatfree --threads 12 Kefir_RBK.contigs.fa > Kefir_RBK.contigs.kraken
+```
+
+
+    - How many taxa are present now at species level?
+    - Identification of contigs
+
+
 
 
 ### Polishing with `racon` [20m]
@@ -127,14 +145,7 @@ racon -t 24 Kefir_RBK.fastq Kefir_RBK.reads-assembly.paf.gz Kefir_RBK.contigs.fa
 
 
 
-### Returning to `kraken` [10m]
 
-  - How many taxa are present now at species level?
-  - Identification of contigs
-
-```
-kraken --db minikraken_20171013_4GB -t 4 Kefir_RBK.contigs.fa  > Kefir_RBK.contigs.kraken.txt
-```
 
 ### Functional assignment [20m] ?
 
