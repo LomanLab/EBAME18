@@ -38,6 +38,7 @@ kraken2 --db kraken2-microbial-fatfree --threads 12 ebame18.fastq --report ebame
 #### Questions
   - How many species are present in the sample?
   - What are the dominant species?
+  - What is the likely source of our mystery sample?
 
 
 ### Long read *de novo* assembly [30m]
