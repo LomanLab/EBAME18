@@ -68,7 +68,7 @@ awk '$3 == 197 {print $0}' ebame18.kraken.txt
 The final column in this output describes how k-mers across the read were assigned.
 Here, we see that `kraken2` failed to find a taxon for the first 918 k-mers (`0:918`, recalling that ID `0` is used for the `unassigned` taxon), followed by just 5 k-mers for *C. jejuni* and 2201 more unassigned k-mers.
 So, the read was assigned to *C. jejuni*, despite just 0.16% of the k-mers being assigned to it  -- or indeed at all!
-I wrote a small script to drop any result for a read that had fewer than 25% of its k-mers assigned, and found we could reduce the number of unique taxa for the mystery sample from 398, to 53.
+I wrote a [small script](https://gist.github.com/SamStudio8/138fd1df9a215e87da3b917e6e564fe8) to drop any result for a read that had fewer than 25% of its k-mers assigned, and found we could reduce the number of unique taxa for the mystery sample from 398, to 53.
 Be aware of this when making inference based on the `kraken2` report alone.
 
 For some further reading, somebody recommended `krakenuniq` [https://github.com/fbreitwieser/krakenuniq](https://github.com/fbreitwieser/krakenuniq) to help avoid this pitfall.
