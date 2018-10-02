@@ -86,6 +86,8 @@ As a result, many tools are not yet compatible with `GFA` files, so we'll use a 
 ```
 awk '/^S/{print ">"$2"\n"$3}' Kefir_RBK.contigs.gfa | fold > Kefir_RBK.contigs.fa
 ```
+It's important to remember that this assembly represents a consensus, often with species specificity.
+Closely related sequences are often "squashed" and the true population variation is lost.
 
 #### Questions
   - How big is the assembly? How many contigs?
@@ -109,7 +111,7 @@ All is not lost, as we can improve the quality of our consensus assembly through
 The intuition behind this is to take your assembled contigs, align the sequenced reads back to them and use the evidence from the reads to *correct* the contigs.
 
 First we map the reads to our assembled consensus.
-Note the `minimap2` preset is now `-x map-ont` (not `-x ava-ont`).
+Note the `minimap2` preset is now `-x map-ont` (not `-x ava-ont`), as we want to map our reads to our assembled consensus.
 
 ```
 minimap2 -t 12 -x map-ont Kefir_RBK.fastq Kefir_RBK.contigs.fa | gzip -1 > Kefir_RBK.reads-assembly.paf.gz
@@ -120,19 +122,21 @@ Now polish:
 racon -t 24 Kefir_RBK.fastq Kefir_RBK.reads-assembly.paf.gz Kefir_RBK.contigs.fa > Kefir_RBK.contigs.racon.fa
 ```
 
+#### Questions
+  - Polish your assembly with `racon`
+
 
 
 ### Returning to `kraken` [10m]
 
   - How many taxa are present now at species level?
-
-
   - Identification of contigs
 
 ```
 kraken --db minikraken_20171013_4GB -t 4 Kefir_RBK.contigs.fa  > Kefir_RBK.contigs.kraken.txt
 ```
 
+### Functional assignment [20m] ?
 
   - Functional assignments
   	  - 16S with Anvi'o
