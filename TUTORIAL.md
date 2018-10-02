@@ -9,6 +9,10 @@
 ## Housekeeping
 Orgnanise yourselves into groups.
 
+### Link to data
+
+  * <a href="https://s3.nanopore.climb.ac.uk/Kefir_RBK.fastq">Kefir FASTQ</a> (sequencing by Josh Quick)
+
 ### MinION QC [10m]
 As you saw in our morning demonstration, we handled the problem of basecalling the nanopore *squiggles* for you, using `guppy`: Oxford Nanopore's GPU-accelerated basecaller.
 We provide the sequenced reads as `FASTQ`.
