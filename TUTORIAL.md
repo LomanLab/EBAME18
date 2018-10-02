@@ -1,5 +1,13 @@
-# Afternoon practical
-Orgnanise yourself into groups.
+# EBAME Practical
+
+|||
+|---|-----|
+|**Title**| Analysing nanopore data |
+|**Authors**| Sam Nicholls (@samstudio8) and Nick Loman (@pathogenomenick) |
+|**Last Updated** | October 2nd 2018 |
+
+## Housekeeping
+Orgnanise yourselves into groups.
 
 ### MinION QC [10m]
 As you saw in our morning demonstration, we handled the problem of basecalling the nanopore *squiggles* for you, using `guppy`: Oxford Nanopore's GPU-accelerated basecaller.
