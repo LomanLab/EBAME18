@@ -50,10 +50,10 @@ We can use some more command line magic to sort and filter the `kraken2` report.
 ```
 sort -k2 -nr ebame18.report.txt | less
 
-#sort by abundance and filter by genus
+# Sort by abundance and filter by genus, count with grep -c
 sort -k2 -nr ebame18.report.txt | grep "\sG\s"
 
-#filter by species
+# Filter by species
 sort -k2 -nr ebame18.report.txt | grep "\sS\s"
 ```
 
