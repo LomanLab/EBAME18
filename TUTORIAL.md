@@ -1,22 +1,3 @@
-
-# Morning lecture 9-12
-
-  - Long reads for metagenomics
-  - Introduction to nanopore sequencing [20]
-     - Portable sequencing applications [20]
-     - Nanopore metagenomics
-        - Challenges
-        - Zymo stuff
-     - Bit of stuff on fermentome
-     - Running the MinION
-     - Break [20]
-     - Download databases to VM
-     - Understanding nanopore data
-     - Basic data handling
-        - Basecalling
-        - QC  
-     - Perspective on ultra-long reads [20]
-
 # Afternoon practical
 Orgnanise yourself into groups.
 
@@ -101,6 +82,7 @@ Closely related sequences are often "squashed" and the true population variation
 
 You probably want to see your graph.
 Luckily for you, Ryan Wick has written a nifty tool called `Bandage` that will read a `GFA` and draw you a pretty picture.
+Install `Bandage` ([https://rrwick.github.io/Bandage/](https://rrwick.github.io/Bandage/)) to your local machine and copy across your contigs `FASTA`.
 
 #### Questions
   - What does the graph look like?
