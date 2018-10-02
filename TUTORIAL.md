@@ -12,7 +12,6 @@ Orgnanise yourselves into groups.
 ### Links to data
 
   * <a href="https://nanopore.s3.climb.ac.uk/Kefir_RBK.fastq">Kefir FASTQ</a> (sequencing by Josh Quick)
-  * <a href="https://s3.nanopore.climb.ac.uk/Kefir_RBK.fastq">Kefir FASTQ</a> (sequencing by Josh Quick)
   * [`kraken2` database instructions](https://github.com/LomanLab/mockcommunity#kraken2-taxonomic-assignment)
 
 ## MinION QC [10m]
