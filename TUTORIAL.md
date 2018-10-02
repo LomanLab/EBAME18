@@ -158,17 +158,3 @@ kraken --db kraken2-microbial-fatfree --threads 12 Kefir_RBK.contigs.racon.fa > 
 #### Questions
   - How many taxa are present now at the species level?
   - Identify some contigs of interest using your `Bandage` plot, what taxon has been assigned to some contigs of interest?
-
-
-
-
-### Functional assignment [20m] ?
-
-  - Functional assignments
-  	  - 16S with Anvi'o
-
-  - Phylogenetics
-     - Core genome analysis
-
-
-#Flye/bin/flye --genome-size 18000000 --out-dir Kefir_RBK-metaflye --threads 24 --nano-raw Kefir_RBK.fastq```
