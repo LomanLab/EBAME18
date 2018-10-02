@@ -89,8 +89,8 @@ As a result, many tools are not yet compatible with `GFA` files, so we'll use a 
 ```
 awk '/^S/{print ">"$2"\n"$3}' Kefir_RBK.contigs.gfa | fold > Kefir_RBK.contigs.fa
 ```
-It's important to remember that this assembly represents a consensus, often with species specificity.
-Closely related sequences are often "squashed" and the true population variation is lost.
+It's important to remember that this assembly represents a consensus, often with species specificity, but not necessarily.
+Closely related sequences are often "squashed" and the true population variation (*i.e.* the *haplotypes*) is lost.
 
 #### Questions
   - How big is the assembly? How many contigs?
@@ -116,9 +116,9 @@ We can assign taxons to our contigs in the same way.
 kraken --db kraken2-microbial-fatfree --threads 12 Kefir_RBK.contigs.fa > Kefir_RBK.contigs.kraken
 ```
 
-
-    - How many taxa are present now at species level?
-    - Identification of contigs
+#### Questions
+  - How many taxa are present now at the species level?
+  - Identify some contigs of interest using your `Bandage` plot, what taxon has been assigned to some contigs of interest?
 
 
 
