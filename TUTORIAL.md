@@ -42,7 +42,7 @@ scp -r <username>@<host>:ebame_nanoplot/ .
   - What is the average error rate? You can convert `phred` scores to a probability with `10^(-Q/10)`
 
 ## Taxonomic identification of reads [30m]
-As a means to broadly and quickly inspect the contents of the sample, we can assign taxons to the sequenced reads using `kraken2`. Given a library of sequenced genomes with known taxonomy (such as all of `RefSeq`), `kraken2` breaks up the sequences into *k-mers* (DNA substrings of length `k`), and keeps an index of all taxons associated with that k-mer.
+As a means to broadly and quickly inspect the contents of the sample, we can assign taxa to the sequenced reads using `kraken2`. Given a library of sequenced genomes with known taxonomy (such as all of `RefSeq`), `kraken2` breaks up the sequences into *k-mers* (DNA substrings of length `k`), and keeps an index of all taxa associated with that k-mer.
 By default `kraken2` will index all observed 35-mers.
 
 We've already built a database beforehand, and you downloaded it just before our mid-morning break. Our database contains all of the `archaea`, `bacteria`, `fungi`, `protozoa`, `viral` sequences from NCBI RefSeq. As well as `UniVec_Core` - a set of sequences that are useful for screening for contaminants such as common sequencing library adaptors and cloning vectors.
@@ -161,8 +161,8 @@ racon -t 12 Kefir_RBK.fastq Kefir_RBK.reads-assembly.paf.gz Kefir_RBK.contigs.fa
 
 ## Taxonomic identification of contigs [15m]
 
-Earlier, we assigned taxons to our reads.
-We can assign taxons to our polished contigs in the same way.
+Earlier, we assigned taxa to our reads.
+We can assign taxa to our polished contigs in the same way.
 
 ```
 kraken --db kraken2-microbial-fatfree --threads 12 Kefir_RBK.contigs.racon.fa > Kefir_RBK.contigs.kraken
