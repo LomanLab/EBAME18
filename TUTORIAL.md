@@ -9,7 +9,7 @@
 ## Housekeeping
 Orgnanise yourselves into groups.
 
-### MinION QC [10m]
+## MinION QC [10m]
 As you saw in our morning demonstration, we handled the problem of basecalling the nanopore *squiggles* for you, using `guppy`: Oxford Nanopore's GPU-accelerated basecaller.
 We provide the sequenced reads as `FASTQ`.
 Don't forget, the `FASTQ` contains both sequence and associated per-base quality scores -- so your yield is about half of that of the file size. You may notice the reads are pretty long! They're also of variable length.
@@ -36,7 +36,7 @@ scp -r <username>@<host>:ebame_nanoplot/ .
   - What is the distribution of read quality?
   - What is the average error rate? You can convert `phred` scores to a probability with `10^(-Q/10)`
 
-### Taxonomic identification of reads [30m]
+## Taxonomic identification of reads [30m]
 As a means to broadly and quickly inspect the contents of the sample, we can assign taxons to the sequenced reads using `kraken2`. Given a library of sequenced genomes with known taxonomy (such as all of `RefSeq`), `kraken2` breaks up the sequences into *k-mers* (DNA substrings of length `k`), and keeps an index of all taxons associated with that k-mer.
 By default `kraken2` will index all observed 35-mers.
 
@@ -87,7 +87,7 @@ For some further reading, somebody recommended `krakenuniq` [https://github.com/
   - What is the likely source of our mystery sample?
 
 
-### Long read *de novo* assembly [30m]
+## Long read *de novo* assembly [30m]
 Classifying the reads provides some insight to the underlying community, but for biological inference we need more detail, and so we will attempt to reconstruct the genomic structures.
 We can reconstruct larger structures from the sequenced reads by leveraging overlaps in the DNA sequences to **assemble** reads into larger fragments. Through `minimap2` and `miniasm` this can be achieved in reasonable time.
 `minimap2` and `miniasm` were written by Heng Li (who also started the `samtools` project) and are designed for fast mapping and assembly of noisy long reads, overcoming some of the assumptions made by tools designed for very-high quality short read sequences.
@@ -125,7 +125,7 @@ Closely related sequences are often "squashed" and the true population variation
   - What is the largest contig?
 
 
-### Bandage plots [5m]
+## Bandage plots [5m]
 
 You probably want to see your graph.
 Luckily for you, Ryan Wick has written a nifty tool called `Bandage` that will read a `GFA` and draw you a pretty picture.
@@ -136,7 +136,7 @@ Install `Bandage` ([https://rrwick.github.io/Bandage/](https://rrwick.github.io/
   - What structures do we have, what has been assembled?
   - How good do you think our consensus is?
 
-### Polishing with `racon` [20m]
+## Polishing with `racon` [20m]
 As mentioned, `miniasm` is fast as it avoids any form of error correction, so you'll expect the consensus sequence error to be as least as high as the underlying read error.
 All is not lost, as we can improve the quality of our consensus assembly through **polishing**.
 The intuition behind this is to take your assembled contigs, align the sequenced reads back to them and use the evidence from the reads to *correct* the contigs.
@@ -154,7 +154,7 @@ racon -t 12 Kefir_RBK.fastq Kefir_RBK.reads-assembly.paf.gz Kefir_RBK.contigs.fa
 ```
 
 
-### Taxonomic identification of contigs [15m]
+## Taxonomic identification of contigs [15m]
 
 Earlier, we assigned taxons to our reads.
 We can assign taxons to our polished contigs in the same way.
