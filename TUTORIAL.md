@@ -32,7 +32,7 @@ scp -r <username>@<host>:ebame_nanoplot/ .
 As a means to broadly and quickly inspect the contents of the sample, we can assign taxons to the sequenced reads using `kraken2`. Given a library of sequenced genomes with known taxonomy (such as all of `RefSeq`), `kraken2` breaks up the sequences into *k-mers* (DNA substrings of length `k`), and keeps an index of all taxons associated with that k-mer.
 By default `kraken2` will index all observed 35-mers.
 
-We've already built a database beforehand, and you downloaded it just before our mid-morning break. Our database contains all of the `archaea`, `bacteria`, `fungi`, `protozoa`, `viral` sequences from the NCBI. As well as `UniVec_Core` - a set of sequences that are useful for screening for contaminants such as common sequencing library adaptors and cloning vectors.
+We've already built a database beforehand, and you downloaded it just before our mid-morning break. Our database contains all of the `archaea`, `bacteria`, `fungi`, `protozoa`, `viral` sequences from NCBI RefSeq. As well as `UniVec_Core` - a set of sequences that are useful for screening for contaminants such as common sequencing library adaptors and cloning vectors.
 
 It's worth noting that the database we've provided is reasonably large (30 GB), and `kraken2` will load this database into RAM to conduct taxonomic assignments.
 If you're short of resources, you could split up your database and run `kraken2` multiple times; alternatively, you can reduce the number of k-mers in your index.
@@ -40,7 +40,7 @@ The latter option will drastically reduce the size of your database, representin
 This will come at the expense of some accuracy, though the default 8 GB "`minikraken`" database can provide a good first-pass (it doesn't index any k-mers from eukaryotes, though).
 
 ```
-kraken2 --db kraken2-microbial-fatfree --threads 12 ebame18.fastq --report ebame18.report > ebame.kraken.txt
+kraken2 --db kraken2-microbial-fatfree --threads 12 ebame18.fastq --report ebame18.report > ebame18.kraken.txt
 ```
 
 The output that we've redirected to `ebame18.kraken.txt` will show the classification of each input sequence, as well as some metadata on the k-mers that were used to make that decision.
