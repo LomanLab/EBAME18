@@ -16,6 +16,11 @@ NanoPlot -p ebame18 -o ebame18_nanoplot/ -t 12 --fastq_rich ebame18.fastq
 
 `--fastq_rich` instructs `NanoPlot` to generate summary information from the `FASTQ` itself.
 This is possible as each read header is encoded with some metadata concerning the read.
+Use `scp` to copy the new directory to your local machine to inspect the plots.
+
+```
+scp -r <username>@<host>:ebame_nanoplot/ .
+```
 
 #### Questions
   - Use `NanoPlot` to generate a report from the `FASTQ`
