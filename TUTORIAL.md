@@ -69,7 +69,9 @@ The final column in this output describes how k-mers across the read were assign
 Here, we see that `kraken2` failed to find a taxon for the first 918 k-mers (`0:918`, recalling that ID `0` is used for the `unassigned` taxon), followed by just 5 k-mers for *C. jejuni* and 2201 more unassigned k-mers.
 So, the read was assigned to *C. jejuni*, despite just 0.16% of the k-mers being assigned to it  -- or indeed at all!
 I wrote a small script to drop any result for a read that had more than 5% of its k-mers unassigned, and found we could reduce the number of unique taxa for the mystery sample from 398, to 64.
-Be aware of this when making inference based on the `kraken2` report alone. 
+Be aware of this when making inference based on the `kraken2` report alone.
+
+For some further reading, somebody recommended `krakenuniq` [https://github.com/fbreitwieser/krakenuniq](https://github.com/fbreitwieser/krakenuniq) to help avoid this pitfall.
 
 #### Questions
   - How many species are present in the sample?
