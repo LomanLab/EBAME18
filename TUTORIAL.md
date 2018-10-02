@@ -57,6 +57,20 @@ sort -k2 -nr ebame18.report.txt | grep "\sG\s"
 sort -k2 -nr ebame18.report.txt | grep "\sS\s"
 ```
 
+It's important to note that `kraken2` will do its best to assign taxonomy to your sequences, even from just a few k-mers.
+We discussed the presence of *Campylobacter jejuni* (NCBI ID `197`) in our mystery sample, which might make one think twice about consuming it. Yet only one read was given this classification.
+We can find more about that read with some `awk` and the non-report `kraken2` file:
+
+```
+awk '$3 == 197 {print $0}' ebame18.kraken.txt
+# C    f0c49900-01ed-4912-98b7-3c8b50437f39    197    3158    0:918 197:5 0:2201
+```
+The final column in this output describes how k-mers across the read were assigned.
+Here, we see that `kraken2` failed to find a taxon for the first 918 k-mers (`0:918`, recalling that ID `0` is used for the `unassigned` taxon), followed by just 5 k-mers for *C. jejuni* and 2201 more unassigned k-mers.
+So, the read was assigned to *C. jejuni*, despite just 0.16% of the k-mers being assigned to it  -- or indeed at all!
+I wrote a small script to drop any result for a read that had more than 5% of its k-mers unassigned, and found we could reduce the number of unique taxa for the mystery sample from 398, to 64.
+Be aware of this when making inference based on the `kraken2` report alone. 
+
 #### Questions
   - How many species are present in the sample?
   - What are the dominant species?
