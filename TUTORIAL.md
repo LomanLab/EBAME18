@@ -4,7 +4,7 @@ Orgnanise yourself into groups.
 ### MinION QC [10m]
 As you saw in our morning demonstration, we handled the problem of basecalling the nanopore *squiggles* for you, using `guppy`: Oxford Nanopore's GPU-accelerated basecaller.
 We provide the sequenced reads as `FASTQ`.
-Don't forget, the `FASTQ` contains both sequence and associated per-base quality scores -- so your yield is about half of that of the file size.
+Don't forget, the `FASTQ` contains both sequence and associated per-base quality scores -- so your yield is about half of that of the file size. You may notice the reads are pretty long! They're also of variable length.
 Before we do anything, we'll want to get an idea of how good our sequence data is (especially since it was prepared by two bioinformaticians).
 For nanopore data, there's a handy package for generating statistics and plots, aptly named `NanoPlot`.
 
