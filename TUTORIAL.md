@@ -12,6 +12,7 @@ Orgnanise yourselves into groups.
 ### Links to data
 
   * <a href="https://s3.nanopore.climb.ac.uk/Kefir_RBK.fastq">Kefir FASTQ</a> (sequencing by Josh Quick)
+  * [`kraken2` database instructions](https://github.com/LomanLab/mockcommunity#kraken2-taxonomic-assignment)
 
 ## MinION QC [10m]
 As you saw in our morning demonstration, we handled the problem of basecalling the nanopore *squiggles* for you, using `guppy`: Oxford Nanopore's GPU-accelerated basecaller.
