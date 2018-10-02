@@ -107,22 +107,6 @@ Luckily for you, Ryan Wick has written a nifty tool called `Bandage` that will r
   - What structures do we have, what has been assembled?
   - How good do you think our consensus is?
 
-### Taxonomic identification of contigs [15m]
-
-Earlier, we assigned taxons to our reads.
-We can assign taxons to our contigs in the same way.
-
-```
-kraken --db kraken2-microbial-fatfree --threads 12 Kefir_RBK.contigs.fa > Kefir_RBK.contigs.kraken
-```
-
-#### Questions
-  - How many taxa are present now at the species level?
-  - Identify some contigs of interest using your `Bandage` plot, what taxon has been assigned to some contigs of interest?
-
-
-
-
 ### Polishing with `racon` [20m]
 As mentioned, `miniasm` is fast as it avoids any form of error correction, so you'll expect the consensus sequence error to be as least as high as the underlying read error.
 All is not lost, as we can improve the quality of our consensus assembly through **polishing**.
@@ -140,9 +124,19 @@ Now polish:
 racon -t 24 Kefir_RBK.fastq Kefir_RBK.reads-assembly.paf.gz Kefir_RBK.contigs.fa > Kefir_RBK.contigs.racon.fa
 ```
 
-#### Questions
-  - Polish your assembly with `racon`
 
+### Taxonomic identification of contigs [15m]
+
+Earlier, we assigned taxons to our reads.
+We can assign taxons to our polished contigs in the same way.
+
+```
+kraken --db kraken2-microbial-fatfree --threads 12 Kefir_RBK.contigs.racon.fa > Kefir_RBK.contigs.kraken
+```
+
+#### Questions
+  - How many taxa are present now at the species level?
+  - Identify some contigs of interest using your `Bandage` plot, what taxon has been assigned to some contigs of interest?
 
 
 
