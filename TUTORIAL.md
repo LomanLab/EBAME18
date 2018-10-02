@@ -8,7 +8,7 @@ Before we do anything, we'll want to get an idea of how good our sequence data i
 For nanopore data, there's a handy package for generating statistics and plots, aptly named `NanoPlot`.
 
 ```
-NanoPlot -p ebame18 -o ebame18_nanopolot/ -t 12 --fastq_rich ebame18.fastq
+NanoPlot -p ebame18 -o ebame18_nanoplot/ -t 12 --fastq_rich ebame18.fastq
 ```
 
 `--fastq_rich` instructs `NanoPlot` to generate summary information from the `FASTQ` itself.
