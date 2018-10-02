@@ -137,7 +137,7 @@ First we map the reads to our assembled consensus.
 Note the `minimap2` preset is now `-x map-ont` (not `-x ava-ont`), as we want to map our reads to our assembled consensus.
 
 ```
-minimap2 -t 12 -x map-ont Kefir_RBK.fastq Kefir_RBK.contigs.fa | gzip -1 > Kefir_RBK.reads-assembly.paf.gz
+minimap2 -t 12 -x map-ont Kefir_RBK.contigs.fa Kefir_RBK.fastq | gzip -1 > Kefir_RBK.reads-assembly.paf.gz
 ```
 
 Now polish:
