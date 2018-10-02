@@ -32,7 +32,21 @@ The latter option will drastically reduce the size of your database, representin
 This will come at the expense of some accuracy, though the default 8 GB "`minikraken`" database can provide a good first-pass (it doesn't index any k-mers from eukaryotes, though).
 
 ```
-kraken2 --db kraken2-microbial-fatfree --threads 12 ebame18.fastq --report ebame18.report
+kraken2 --db kraken2-microbial-fatfree --threads 12 ebame18.fastq --report ebame18.report > ebame.kraken.txt
+```
+
+The output that we've redirected to `ebame18.kraken.txt` will show the classification of each input sequence, as well as some metadata on the k-mers that were used to make that decision.
+The `ebame18.report` is a more general overview that aggregates the classifications.
+We can use some more command line magic to sort and filter the `kraken2` report.
+
+```
+sort -k2 -nr ebame18.kraken.report | less
+
+#sort by abundance and filter by genus
+sort -k2 -nr ebame18.kraken.report | grep "\sG\s"
+
+#filter by species
+sort -k2 -nr ebame18.kraken.report | grep "\sS\s"
 ```
 
 #### Questions
@@ -104,7 +118,7 @@ minimap2 -t 12 -x map-ont Kefir_RBK.fastq Kefir_RBK.contigs.fa | gzip -1 > Kefir
 
 Now polish:
 ```
-racon -t 24 Kefir_RBK.fastq Kefir_RBK.reads-assembly.paf.gz Kefir_RBK.contigs.fa > Kefir_RBK.contigs.racon.fa
+racon -t 12 Kefir_RBK.fastq Kefir_RBK.reads-assembly.paf.gz Kefir_RBK.contigs.fa > Kefir_RBK.contigs.racon.fa
 ```
 
 
