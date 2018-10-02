@@ -6,7 +6,9 @@ As you saw in our morning demonstration, we handled the problem of basecalling t
 We provide the sequenced reads as `FASTQ`.
 Don't forget, the `FASTQ` contains both sequence and associated per-base quality scores -- so your yield is about half of that of the file size. You may notice the reads are pretty long! They're also of variable length.
 Before we do anything, we'll want to get an idea of how good our sequence data is (especially since it was prepared by two bioinformaticians).
-For nanopore data, there's a handy package for generating statistics and plots, aptly named `NanoPlot`.
+For nanopore data, there's a handy package for generating statistics and plots, aptly named `NanoPlot`. Other packages are available.
+
+If you've worked with Illumina short-read data, you may be familiar with `FastQC`, which doesn't work with long-read data and panics about the quality.
 
 ```
 NanoPlot -p ebame18 -o ebame18_nanoplot/ -t 12 --fastq_rich ebame18.fastq
