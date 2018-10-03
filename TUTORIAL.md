@@ -1,4 +1,5 @@
 # EBAME Practical
+## Analysing nanopore data
 
 |||
 |---|-----|
@@ -174,6 +175,12 @@ kraken --db kraken2-microbial-fatfree --threads 12 Kefir_RBK.contigs.racon.fa > 
 
 
 ## An alternative workflow to analyze raw minION reads with anvi'o to gain quick insights into taxonomy through full-length 16S rRNA gene sequences [5m]
+
+|||
+|---|-----|
+|**Title**| An alternative workflow to analyze raw minION reads with anvi'o to gain quick insights into taxonomy through full-length 16S rRNA gene sequences |
+|**Authors**| Meren (@merenbey) |
+|**Last Updated** | October 3rd 2018 |
 
 > This part describes [Meren](http://merenlab.org)'s quick analysis of the raw reads to get quick and preliminary insights into the content of the sequenced product using full-lenght 16S rRNA genes it contains within minutes using [anvi'o](http://merenlab.org/software/anvio).
 
