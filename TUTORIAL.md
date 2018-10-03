@@ -171,3 +171,110 @@ kraken --db kraken2-microbial-fatfree --threads 12 Kefir_RBK.contigs.racon.fa > 
 #### Questions
   - How many taxa are present now at the species level?
   - Identify some contigs of interest using your `Bandage` plot, what taxon has been assigned to some contigs of interest?
+
+
+## An alternative workflow to analyze raw minION reads with anvi'o to gain quick insights into taxonomy through full-length 16S rRNA gene sequences [5m]
+
+> This part describes [Meren](http://merenlab.org)'s quick analysis of the raw reads to get quick and preliminary insights into the content of the sequenced product using full-lenght 16S rRNA genes it contains within minutes using [anvi'o](http://merenlab.org/software/anvio).
+
+This quick-and-dirty analysis starts with the following command line, which downloads the FASTQ file for the raw seqeuncing data as it's coming out of minION:
+
+```
+wget https://nanopore.s3.climb.ac.uk/ebame18.fastq
+```
+
+Here is a quick one-liner to turn this FASTQ file into a FASTA file (this is far from the best practice, but acceptable for this particular analysis):
+
+
+``` bash
+# meren’s lousy attempt:
+grep -A 1 '^@' ebame18.fastq | grep -v '^--$' | sed  's/^@/>/g' > ebame18.fa
+
+# an alternative from Frédéric Mahé:
+grep --no-group-separator -A 1 '^@' ebame18.fastq | sed  's/^@/>/' > ebame18.fa
+
+# an even better alternative from Frédéric Mahé again:
+sed -n '/^@/ {s/@/>/ ; p ; n ; p}' ebame18.fastq > ebame18.fa
+
+# yet another alternative from an anonymous participant
+awk '/^@/ {sub("^@", ">") ; print ; getline ; print}' ebame18.fastq > ebame18.fa
+```
+
+Each of the command lines above does the same thing: convertion the raw FASTQ file to a FASTA file since that's what anvi'o likes to work with. Next, we will simplify deflines in this FASTA file, and remove any read that is less than 5,000 nts:
+
+```
+anvi-script-reformat-fasta ebame18.fa \
+                           --simplify \
+                           -l 5000 \
+                           -o minion.fa
+```
+
+Here I will generate a contigs database:
+
+```
+anvi-gen-contigs-database -f minion.fa \
+                          -o minion.db \
+                          --skip-mindful-splitting \
+                          -n 'Mysterious MinION sample'
+```
+
+This step runs Prodigal to identify open reading frames in these contigs. Most of them will be cut short due to in/del and substution errors resulting in spurious gene calls before polishing, but we do not care since we will rely on a DNA based HMM model to predict 16S rRNA genes in the resulting contigs. Just to note, in this particular case Prodigal identified 40,336 genes. Here are some basic stats from the contigs DB:
+
+```
+Contigs with at least one gene call ..........: 4952 of 4952 (100.0%)
+Number of contigs ............................: 4,952
+Number of splits .............................: 4,968
+Total number of nucleotides ..................: 44,788,918
+Gene calling step skipped ....................: False
+Splits broke genes (non-mindful mode) ........: True
+Desired split length (what the user wanted) ..: 20,000
+Average split length (wnat anvi'o gave back) .: 20,589
+```
+
+Now it is time to run the default HMMs ship with anvi'o, which includes single-copy core genes as well as one to identify rRNAs:
+
+```
+anvi-run-hmms -c minion.db \
+              --num-threads 7 \
+              --installed-hmm-profile Ribosomal_RNAs
+```
+
+Once this process is done, we can take a quick look at the contigs database and see what it looks like:
+
+```
+anvi-display-contigs-stats minion.db
+```
+
+This command opens your browser so you can inspect the basic statistics of your contigs, which will look like this:
+
+![https://i.imgur.com/xt9ZGSF.png](https://i.imgur.com/xt9ZGSF.png)
+
+![https://i.imgur.com/SYgKoSB.png](https://i.imgur.com/SYgKoSB.png)
+
+*Don't let the "approximate genomes" estimation fool you: [this estimation](http://merenlab.org/2015/12/07/predicting-number-of-genomes/) relies on the prsesence of single-copy-core genes, which are not identified efficiently in non-polished nanopore reads due to errors that distrupt the gene caller.*
+
+Fine. What we can do is to get the 16S rRNA genes out of this contigs database:
+
+```
+anvi-get-sequences-for-hmm-hits -c minion.db \
+                                --hmm-source Ribosomal_RNAs \
+                                --gene-name Bacterial_16S_rRNA
+```
+
+This results in a FASTA file with about hundred sequences. Here is one of them:
+
+```
+TTGAGAGTTGATCCTGGCTCCAGGACGAACGCTGGCGTGCCTAATATACATACAAGTTGAACGTGAAGATTGGTGCTTGCACCAATTTGAAGAAACAACGAACAATTGAAGTAACGCGTGGGAATCTGCCTTTGAGCAGGGGACAACATTTGGAAACGAATGCTAATACCGCATAACAACTTTAAACATAAGTTTTAAGTTTGAAAGATACAGTACATACTCAAAGATGATCCCGCGTTGTATTAGCTAGTTGGTGAGGTAAAGGCTCGCAAGGCGATGATACATAGCCGACCTGGAGGGGTGATAAGCCTACGTGGGACTGGAACACGGCCCAAACTCTCACCACGGGAGACGCGTGGGAATCTTCGGCAATGTGGACGAAAGTCACGACCGAGCAACGCCGCGTAGGTGAAGAAGGTTTTCCGGATCGTAAAATACATTTGGCTGAGAAGAACGTTGGTGAGTGGAAAGCTCATCAAGTGACGGTAACTACCAGAAAGGACGGCTAACTACGTGCCAGCAGCCGCGGTAATACGTAGGTCGAGCGTTATCCAGATTTATTGGGCGTAAAGAGCGCGGTGGTTTTATTAAAGTCTGGTGGTAAAGGCAGTGGCTCAACCATTGTATGCATTGGAAACTGGTAGACTTGAGTGCAGGAGAGGAGGGAGTGGAATTCCATGTAGCGGTGAAATGCGTAGATATATGGAGGGAACACCGGTGGCGAAAGCGGCTCTCTGGCCTGCCGAAAAACTGACACTGAGGCTCGAAGCGTGGGGAGCGGCAGGATTAGATACCCTGGTAGTCACGCCGTATGACGATGGAAGTGCTAGATGTAGGGAGCTATAAGTTCTCTGTATCGCAGCTAACGCAATAAGCACTCCGCCTGGGAGTACGACCGCAGAGTTGAAACTCAGAAAGGGAATTGACGGGGGCCCACTGGCGGTGGAGCATGTGGTTTAATTCGAAGCAACGCGAAGAACCTTACCAGGTCTTGACATGCTCGTGCTATTCTAGAGATAGGAAGTTCCTTCGGGACACGGGATACGGGTGGTGCATGGTTGTCGTCAGCTCGTGTCATTGAGATGTTGGGTTAGGTCCCGCAACGAGCACCAACCCCTATTGTTAGTTACCATCATTAAGTTGGGCACTCTAACGAGACTGCCGGTGATAAACCGGAGGAAGGTAAGGATGACGTCAAATCATCATGCCTTATGACCTGGAGCTACACACGTGCTACAATGGATGGTACAACGAGTCGCGAGAGACGGTGATGTTTAGCTAATCTCTTGAAACCATTCTCGGATTCGGATTGTAGGCTGCGCTTTCGCCTACATGATCCGGAATCGCTAATAGTAATCGCGGATCAGCACGCCGCGGTGAATGCGTTCCCCGGGCCTTGTACACACCGCCCGTCACACCACGGGAGTTGGGGTACCCGAAGTAGGTTGCCCACAACCGCAAGGAGGCGCTTCTAAGGAGATAAAGACCGATGACTGAGGGTGAAGTCTTAACCGAGTAGCCGTATCGGAAGGTGCGGCTGGATCACT
+```
+
+If you BLAST this sequence on the NCBI, you get 90% identity to *Lactococcus lactis subsp. cremoris*. Although it took only 5 minutes to get to this point, Meren does not tell anything during the workshop to not ruin the fun for anyone. The rest are [here](https://pastebin.com/yXD6CPKV)
+
+Meanwhile I BLAST-searched every full-length 16S sequence we recovered, and formatted the output using [this script](https://gist.githubusercontent.com/meren/d1cc319ea9c7c6c4ab13471fdf828718/raw/dfe6ffefb0a98792338643eb6cfaf1c82e7f7fdf/summarize_blast_results.py). Here is a glimpse at the results (the percent identity goes above 100%, which is a silly bug in my script that I was too lazy to fix):
+
+![https://i.imgur.com/VxOtCtn.png](https://i.imgur.com/VxOtCtn.png)
+
+The results nicely reflect the ~10% error rate assuming databases will very likely contain strains that hit 100% to what you would expect to find in over-the-counter products.
+
+I would have liked to use amino acid sequences for single-copy core genes to do some quick phylogenomic analyses, however, the interruptions to the gene calling process often result in prematurely finalized gene calls, that does not help us do much with the amino acid sequences we get from that. Some polishing may have changed it dramatically!
+
+If you want to practice anvi’o, you could consider putting the assembled genomes into the context of type strains found in the NCBI to see to what extent you find them to be identical to what we think they are through the [pangenomic workflow](http://merenlab.org/2016/11/08/pangenomics-v2/).
