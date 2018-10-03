@@ -265,7 +265,7 @@ Fine. What we can do is to get the 16S rRNA genes out of this contigs database:
 ```
 anvi-get-sequences-for-hmm-hits -c minion.db \
                                 --hmm-source Ribosomal_RNAs \
-                                --gene-name Bacterial_16S_rRNA
+                                --gene-names "Bacterial_16S_rRNA, Archaeal_16S_rRNA"
 ```
 
 This results in a FASTA file with about hundred sequences. Here is one of them:
