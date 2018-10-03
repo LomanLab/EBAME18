@@ -260,7 +260,7 @@ This command opens your browser so you can inspect the basic statistics of your 
 
 *Don't let the "approximate genomes" estimation fool you: [this estimation](http://merenlab.org/2015/12/07/predicting-number-of-genomes/) relies on the prsesence of single-copy-core genes, which are not identified efficiently in non-polished nanopore reads due to errors that distrupt the gene caller.*
 
-Fine. What we can do is to get the 16S rRNA genes out of this contigs database:
+Fine. What we can do is to get the 16S rRNA genes out of this contigs database (to avoid any sensitivity/specificity issues, we are asking for 16S rRNA gene seqeunces even if they are identified through the Archaeal HMM):
 
 ```
 anvi-get-sequences-for-hmm-hits -c minion.db \
